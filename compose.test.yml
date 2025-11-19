@@ -1,13 +1,13 @@
 services:
   web:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - "81:80"   # test web mapped to 81 to avoid colliding with main stack
     volumes:
       - ./src:/var/www/html
-  
+
   db:
     image: mariadb:11.4
     environment:
@@ -16,10 +16,11 @@ services:
       MYSQL_USER: exampleuser
       MYSQL_PASSWORD: examplepass
     ports:
-      - "3306:3306"
+      - "3307:3306"  # expose 3307 to avoid colliding with main stack
     volumes:
-      - ./data:/var/lib/mysql
-      - ./01-init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./data_test:/var/lib/mysql
+      - ./01-init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - ./02-testdata.sql:/docker-entrypoint-initdb.d/02-testdata.sql:ro
 
   adminer:
     image: adminer:latest
