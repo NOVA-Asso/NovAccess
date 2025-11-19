@@ -65,7 +65,7 @@ function showFaviconFallback(container, url) {
   container.classList.remove("loading");
 
   // Extract first letter of domain for fallback
-  let letter = "?";
+  let letter;
   try {
     const urlObj = new URL(url);
     letter = urlObj.hostname.charAt(0).toUpperCase();
