@@ -11,7 +11,7 @@ try {
 
 // Fetch all links from the database
 $orderBy = DEFAULT_SORT . ' ' . DEFAULT_ORDER;
-$stmt = $pdo->query("SELECT l.id, l.url, l.name, l.description, l.needs_auth, l.created_at, c.name as category FROM links l LEFT JOIN categories c ON c.id = l.categories_id ORDER BY $orderBy");
+$stmt = $pdo->query("SELECT l.id, l.url, l.name, l.description, l.needs_auth, l.created_at, c.name as category FROM links l LEFT JOIN categories c ON c.id = l.category_id ORDER BY $orderBy");
 $links = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
