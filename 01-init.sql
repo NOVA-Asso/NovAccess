@@ -1,10 +1,19 @@
 USE novaccess;
 
+CREATE TABLE IF NOT EXISTS categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS links (
     id INT AUTO_INCREMENT PRIMARY KEY,
     url VARCHAR(2048) NOT NULL,
     name VARCHAR(10) NOT NULL UNIQUE,
     description TEXT,
     needs_auth BOOLEAN DEFAULT FALSE,
+    categories_id INT,
+    FOREIGN KEY (categories_id) REFERENCES categories(id) ON DELETE SET NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
