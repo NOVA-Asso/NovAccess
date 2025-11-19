@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initFavicons();
   initSearch();
   initDragAndDrop();
+  loadOrder();
 });
 
 // ===== FAVICON LOADING =====
@@ -289,11 +290,6 @@ function loadOrder() {
     console.error("Failed to load order:", e);
   }
 }
-
-// Load saved order on page load
-document.addEventListener("DOMContentLoaded", function () {
-  loadOrder();
-});
 
 // Keyboard shortcuts
 document.addEventListener("keydown", function (e) {
