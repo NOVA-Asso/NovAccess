@@ -11,7 +11,7 @@ try {
 
 // Fetch all links from the database
 $orderBy = DEFAULT_SORT . ' ' . DEFAULT_ORDER;
-$stmt = $pdo->query("SELECT id, url, name, description, needs_auth, created_at FROM links ORDER BY $orderBy");
+$stmt = $pdo->query("SELECT l.id, l.url, l.name, l.description, l.needs_auth, l.created_at, c.name as category FROM links l LEFT JOIN categories c ON c.id = l.category_id ORDER BY $orderBy");
 $links = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
@@ -85,17 +85,23 @@ $links = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?php endif; ?>
 
                         <div class="card-footer">
-                            <?php if ($link['needs_auth']): ?>
-                                <span class="card-badge">
-                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                    </svg>
-                                    <?php echo LABEL_AUTH_REQUIRED; ?>
-                                </span>
-                            <?php else: ?>
-                                <span></span>
-                            <?php endif; ?>
+                            <div>
+                                <?php if ($link['needs_auth']): ?>
+                                    <span class="card-badge">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                        </svg>
+                                        <?php echo LABEL_AUTH_REQUIRED; ?>
+                                    </span>
+                                <?php endif; ?>
+
+                                <?php if ($link['category'] !== null): ?>
+                                    <span class="card-badge card-badge-primary">
+                                        <?php echo htmlspecialchars($link['category']); ?>
+                                    </span>
+                                <?php endif; ?>
+                            </div>
 
                             <a href="<?php echo htmlspecialchars($link['url']); ?>" target="_blank" rel="noopener noreferrer"
                                 class="card-link">
